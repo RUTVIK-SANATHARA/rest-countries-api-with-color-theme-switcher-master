@@ -1,35 +1,11 @@
-import React,{useState} from 'react'
+import React,{useState , useContext} from 'react'
 import { Link , useParams} from "react-router-dom";
+import { States } from '../context/noteState';
+// import NoteState from '../context/noteState';
 
-const Navbar = () => {
-    const [icon, setIcon] = useState(false);
-    const [colorMode, setColorMode] = useState({
-        color: "hsl(200, 15%, 8%)",
-        backgroundColor:"white",
-        text:"light",
-        opposite:"dark"
-      });
-      const clicking = () => {
-         if(icon===false){
-          setIcon(!icon);
-          setColorMode({
-            color: "hsl(0, 0%, 98%)",
-            backgroundColor: "hsl(200, 15%, 8%)",
-            text:"dark",
-            opposite:"light"
-          });
-         }
-         else{
-          setIcon(!icon);
-          setColorMode({
-            color: "hsl(200, 15%, 8%)",
-            backgroundColor:"white",
-            text:"light",
-            opposite:"dark"
-          });
-         }
-      };
+const Navbar = (props) => {
     
+    const {colorMode , clicking , icon} = useContext(States);
   return (
     <>
          <header style={colorMode}>

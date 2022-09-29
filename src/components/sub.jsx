@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from './Navbar'
+import React, { useEffect, useState , useContext } from 'react'
+// import Navbar from './Navbar'
 import { Link, useParams } from "react-router-dom"
 import axios from 'axios';
+import { States } from '../context/noteState';
 
-const Sub = () => {
+const Sub = (props) => {
     let { id } = useParams();
+    const {colorMode} = useContext(States);
     const [state, setstate] = useState([])
     useEffect(() => {
         axios.get(`https://restcountries.com/v2/name/${id}`)
@@ -13,26 +15,24 @@ const Sub = () => {
         }).catch(error=>{
             console.log(error)
         })
-        // const getData = async () => {
-        //     let single = await axios.get(`https://restcountries.com/v2/name/${id}`);
-
-        //     setstate(single.data);
-        // }
-        // getData();
+        
     }, [])
     return (
         <>
-            <Navbar />
-            <div className="container my-5">
+            {/* <Navbar /> */}
+            <div  style={colorMode} className="w-100 min-vh-100" >
+            <div className="container py-5">
                 <button className="btn btn-light px-5 shadow-sm"><Link to="/" className="text-decoration-none text-dark"> <span> <i className="fa-solid fa-arrow-left"></i> </span> Back </Link></button>
             </div>
 
-            <div className="container">
+            <div className="container"   >
                 <div className="row my-lg-5">
                     {
-                        state.map((ele) => {
+                        state.map((ele,index) => { 
+                               
                             return (
-                                <>
+                                <> 
+                                     
                                     <div className="col-12 col-md-6 pe-5">
                                         <img src={ele.flags.svg} alt="flags" style={{ width: "100%", height: "500px" }} />
                                     </div>
@@ -52,12 +52,20 @@ const Sub = () => {
                                                 <p className="pt-4"><span className="fw-bold">Languages: </span>{ele.languages[0].name}</p>
                                                </div>
                                            </div>
+
+                                           <div className="row">
+                                                <div className="col-12">
+                                                   
+                                                <p className="pt-4"><span className="fw-bold">Border Countries: </span> {  ele.borders + " ,".replace(/^,|,$/g, "")}  {/* slice(0,-1) */ } </p>
+                                                </div>
+                                           </div>
                                     </div>
                                 </>
                             )
                         })
                     }
                 </div>
+            </div>
             </div>
         </>
     )
